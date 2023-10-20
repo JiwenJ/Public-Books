@@ -1,0 +1,188 @@
+#########################
+# 03.06.2011
+# Deyuan Qiu
+# Version 0.2
+#########################
+Update from Version 0.1:
+Reordered everything from the code for the English version of the book: 'GPGPU: The Art of Acceleration'.
+
+To build the examples, follow the steps:
+
+1) Locate to the home directory in shell.
+2) Type 'make'.
+3) Check for errors yourself. Neglect warnings. Mostly they are caused by different installation paths and different gcc versions. Executables are found in each source folders.
+4) Type 'make clean' to tidy up all the binaries and temporary building files.
+
+Notice that the project multi_gpu in Chapter7 needs boost installed. Therefore it is not built in the process explained above. Go to www.boost.org to fetch an appropriate boost release.
+
+Other than using the master makefile to compile everything at one blow, you can also type 'make' in each source folders to build projects separately. In that case, you would have to build and install the libraries on your own.
+
+Four libraries are required to install before compiling the examples: libCReader, libCTimer, libCSystem and libGPUWorker. To install libCReader for instances, go to folder CReader and type:
+$make
+$make install
+Again, using the master makefile in the home folder, the libraries are installed automatically.
+
+The package was only tested on Mac OS X 10.5 Leopard and Mac OS X 10.6 Snow Leopard, with gcc 4.0 and gcc 4.2, CUDA 2.1, 2.2, 3.1 and 3.2. If you are going to compile on Linux, you have to change the paths for OpenGL and CUDA SDK installation (we used libcutil in the examples), and remove the -framework compiling flag for GLSL and OpenCL examples.
+
+For installing OpenGL libraries and CUDA, please refer to the book or official tutorials.
+
+___________
+|Accessary|
+-----------
+A successful building procedure would have the similar output as follows:
+
+---------------A successful building procedure-----------START
+$ make
+
++----------------------------+
+|====== Compiling libs ======|
++----------------------------+
+/usr/bin/ranlib: warning for library: libCSystem.a the table of contents is empty (no object file members in the library define global symbols)
+[ 0%] Compiling CSystem...
+[ 3%] Compiling CTimer...
+[ 6%] Compiling CReader...
+[ 8%] Compiling GPUWorker...
+
++-----------------------------+
+|====== Installing libs ======|
++-----------------------------+
+[11%] installing CSystem...
+[14%] installing CTimer...
+[17%] installing CReader...
+[19%] installing GPUWorker...
+
++--------------------------------+
+|====== Compiling examples ======|
++--------------------------------+
+[25%] Compiling cpu_convolution...
+Building with Darwin.
+g++ -O3 -L. -L../../lib -I../../CTimer -I../../CSystem -o convolution convolution.cpp -lCTimer -lCSystem 
+ld: warning: in ../../lib/libCSystem.a, file was built for unsupported file format which is not the architecture being linked (x86_64)
+---------------------------------
+
+[28%] Compiling glsl_uniform...
+g++ -framework GLUT -framework OpenGL  -Wall -L/System/Library/Frameworks/OpenGL.framework/Libraries -L/opt/local/lib -L. -L../../lib -I/opt/local/include/GL -I../../CReader -o glsl_uniform glsl_uniform.cpp -lGLEW -lGL -lGLU -lCReader 
+glsl_uniform.cpp: In function ‘void setShaders()’:
+glsl_uniform.cpp:56: warning: deprecated conversion from string constant to ‘char*’
+glsl_uniform.cpp:57: warning: deprecated conversion from string constant to ‘char*’
+---------------------------------
+
+[31%] Compiling minimum_opengl...
+g++ -framework GLUT -framework OpenGL  -O3 -o minimum_opengl -lGLEW -lGL -lGLU minimum_opengl.cpp -L/System/Library/Frameworks/OpenGL.framework/Libraries -L/opt/local/lib -I/opt/local/include/GL -I/Developer/GPU\ Computing/C/common/inc/GL/
+---------------------------------
+
+[33%] Compiling minimum_shader...
+g++ -framework GLUT -framework OpenGL  -Wall -o minimum_shader minimum_shader.cpp -L/System/Library/Frameworks/OpenGL.framework/Libraries -L/opt/local/lib -L. -L../../lib -I/opt/local/include/GL -I../../CReader -lGLEW -lGL -lGLU -lCReader 
+minimum_shader.cpp: In function ‘void setShaders()’:
+minimum_shader.cpp:54: warning: deprecated conversion from string constant to ‘char*’
+minimum_shader.cpp:55: warning: deprecated conversion from string constant to ‘char*’
+---------------------------------
+
+[36%] Compiling gpu_roundtrip...
+g++ -framework GLUT -framework OpenGL  -Wall -o gpu_roundtrip -lGLEW -lGL -lGLU gpu_roundtrip.cpp -L/System/Library/Frameworks/OpenGL.framework/Libraries -L/opt/local/lib -I/opt/local/include/GL
+---------------------------------
+
+[39%] Compiling gpu_convolution...
+g++ -framework GLUT -framework OpenGL  -O3 -o gpu_convolution gpu_convolution.cpp -L/System/Library/Frameworks/OpenGL.framework/Libraries -L/opt/local/lib -L. -L../../lib -I/opt/local/include/GL -I../../CReader -I../../CTimer -lGLEW -lGL -lGLU -lCReader -lCTimer 
+gpu_convolution.cpp: In function ‘int main(int, char**)’:
+gpu_convolution.cpp:82: warning: deprecated conversion from string constant to ‘char*’
+gpu_convolution.cpp:86: warning: deprecated conversion from string constant to ‘char*’
+---------------------------------
+
+[42%] Compiling cuda_platform...
+nvcc -O3  -o cuda_empty cuda_empty.cu -I/usr/local/cuda/include -I/Developer/GPU\ Computing/C/common/inc -L/usr/local/cuda/lib -L/Developer/GPU\ Computing/C/lib -lcutil_i386 -lcuda -lcudart 
+---------------------------------
+
+[44%] Compiling cuda_1st_example...
+nvcc -g -G -deviceemu  -o cuda_1st_example cuda_1st_example.cu -I/usr/local/cuda/include -I/Developer/GPU\ Computing/C/common/inc -L/usr/local/cuda/lib -L/Developer/GPU\ Computing/C/lib -L/Developer/GPU\ Computing/C/common/lib -lcutil_i386 -lcuda -lcudart 
+nvcc warning : option 'device-emulation' has been deprecated and is ignored
+---------------------------------
+
+[47%] Compiling cpu_quadratic_sum...
+g++ -O3 -L. -L../../lib -I../../CTimer -o cpu_quadratic_sum cpu_quadratic_sum.cpp -lCTimer
+---------------------------------
+
+[50%] Compiling gpu_quadratic_sum_1...
+nvcc -O3  -o gpu_quadratic_sum_1 gpu_quadratic_sum_1.cu -I/usr/local/cuda/include -I/Developer/GPU\ Computing/C/common/inc -L/usr/local/cuda/lib -L/Developer/GPU\ Computing/C/lib -lcutil_i386 -lcuda -lcudart 
+---------------------------------
+
+[53%] Compiling gpu_quadratic_sum_1_timer...
+nvcc -O3  -o gpu_quadratic_sum_1_timer gpu_quadratic_sum_1_timer.cu -I/usr/local/cuda/include -I/Developer/GPU\ Computing/C/common/inc -L/usr/local/cuda/lib -L/Developer/GPU\ Computing/C/lib -lcutil_i386 -lcudart 
+gpu_quadratic_sum_1_timer.cu: In function ‘int main(int, char**)’:
+gpu_quadratic_sum_1_timer.cu:54: warning: format ‘%d’ expects type ‘int’, but argument 3 has type ‘clock_t’
+---------------------------------
+
+[56%] Compiling gpu_quadratic_sum_2...
+nvcc -O3  -o gpu_quadratic_sum_2 gpu_quadratic_sum_2.cu -I/usr/local/cuda/include -I/Developer/GPU\ Computing/C/common/inc -L/usr/local/cuda/lib -L/Developer/GPU\ Computing/C/lib -lcutil_i386 -lcuda -lcudart 
+gpu_quadratic_sum_2.cu: In function ‘int main(int, char**)’:
+gpu_quadratic_sum_2.cu:67: warning: format ‘%d’ expects type ‘int’, but argument 3 has type ‘long unsigned int’
+---------------------------------
+
+[58%] Compiling gpu_quadratic_sum_3...
+nvcc -O3  -o gpu_quadratic_sum_3 gpu_quadratic_sum_3.cu -I/usr/local/cuda/include -I/Developer/GPU\ Computing/C/common/inc -L/usr/local/cuda/lib -L/Developer/GPU\ Computing/C/lib -lcutil_i386 -lcuda -lcudart 
+gpu_quadratic_sum_3.cu: In function ‘int main(int, char**)’:
+gpu_quadratic_sum_3.cu:66: warning: format ‘%d’ expects type ‘int’, but argument 3 has type ‘long unsigned int’
+---------------------------------
+
+[61%] Compiling gpu_quadratic_sum_4...
+nvcc -O3  -o gpu_quadratic_sum_4 gpu_quadratic_sum_4.cu -I/usr/local/cuda/include -I/Developer/GPU\ Computing/C/common/inc -L/usr/local/cuda/lib -L/Developer/GPU\ Computing/C/lib -lcutil_i386 -lcuda -lcudart 
+gpu_quadratic_sum_4.cu: In function ‘int main(int, char**)’:
+gpu_quadratic_sum_4.cu:81: warning: format ‘%d’ expects type ‘int’, but argument 3 has type ‘long unsigned int’
+---------------------------------
+
+[64%] Compiling gpu_quadratic_sum_5...
+nvcc -O3  -o gpu_quadratic_sum_5 gpu_quadratic_sum_5.cu -I/usr/local/cuda/include -I/Developer/GPU\ Computing/C/common/inc -L/usr/local/cuda/lib -L/Developer/GPU\ Computing/C/lib -lcutil_i386 -lcuda -lcudart 
+---------------------------------
+
+[67%] Compiling gpu_quadratic_sum_5_conflict_free...
+nvcc -O3  -o gpu_quadratic_sum_5_conflict_free gpu_quadratic_sum_5_conflict_free.cu -I/usr/local/cuda/include -I/Developer/GPU\ Computing/C/common/inc -L/usr/local/cuda/lib -L/Developer/GPU\ Computing/C/lib -lcutil_i386 -lcuda -lcudart 
+gpu_quadratic_sum_5_conflict_free.cu: In function ‘int main(int, char**)’:
+gpu_quadratic_sum_5_conflict_free.cu:95: warning: format ‘%d’ expects type ‘int’, but argument 3 has type ‘long unsigned int’
+---------------------------------
+
+[70%]Compiling gpu_quadratic_sum_6...
+nvcc -O3  -o gpu_quadratic_sum_6 gpu_quadratic_sum_6.cu -I/usr/local/cuda/include -I/Developer/GPU\ Computing/C/common/inc -L/usr/local/cuda/lib -L/Developer/GPU\ Computing/C/lib -lcutil_i386 -lcuda -lcudart 
+gpu_quadratic_sum_6.cu: In function ‘int main(int, char**)’:
+gpu_quadratic_sum_6.cu:105: warning: format ‘%d’ expects type ‘int’, but argument 3 has type ‘long unsigned int’
+---------------------------------
+
+[72%] Compiling cuda_texture_roundtrip...
+nvcc -O3  -o cuda_texture_roundtrip cuda_texture_roundtrip.cu -I/usr/local/cuda/include -I/Developer/GPU\ Computing/C/common/inc -L/usr/local/cuda/lib -L/Developer/GPU\ Computing/C/lib -lcutil_i386 -lcuda -lcudart 
+---------------------------------
+
+[75%] Compiling cuda_convolution...
+nvcc -O3  -o cuda_convolution cuda_convolution.cu -I/usr/local/cuda/include -I/Developer/GPU\ Computing/C/common/inc -L/usr/local/cuda/lib -L/Developer/GPU\ Computing/C/lib -lcutil_i386 -lcuda -lcudart 
+---------------------------------
+
+[78%] Compiling cpp_integration_ComputeCapability1.1...
+nvcc -c -O3  CHelloWorld.cu -I/usr/local/cuda/include -I/Developer/GPU\ Computing/C/common/inc
+g++-4.0 -O2 -L/usr/local/cuda/lib -L/Developer/GPU\ Computing/C/lib cuda_helloworld.cpp CHelloWorld.o -o cuda_helloworld -lcutil_i386 -lcuda -lcudart 
+---------------------------------
+
+[81%] Compiling cpp_integration_ComputeCapability2.1...
+nvcc -c -g -arch=sm_21  CHelloWorld.cu -I/usr/local/cuda/include -I/Developer/GPU\ Computing/C/common/inc
+nvcc  -L/usr/local/cuda/lib -L/Developer/GPU\ Computing/C/lib cuda_helloworld.cpp CHelloWorld.o -o cuda_helloworld -lcutil_i386 -lcuda -lcudart -I/usr/local/cuda/include -I/Developer/GPU\ Computing/C/common/inc
+---------------------------------
+
+[84%] Compiling cuda-gdb...
+nvcc -g -G  -o cuda_gdb_1 cuda_gdb_1.cu -I/usr/local/cuda/include -I/Developer/GPU\ Computing/C/common/inc -L/usr/local/cuda/lib -L/Developer/GPU\ Computing/C/lib  
+---------------------------------
+
+[87%] Compiling cuda_helloworld...
+g++-4.0 -g -Wall -lcutil_i386 -lcublas -lcuda -lcudart cublas_helloworld.cpp -I/usr/local/cuda/include  -L/usr/local/cuda/lib -L/usr/lib -L/Developer/GPU\ Computing/C/lib/ -o cublas_helloworld
+---------------------------------
+
+[90%] Skip multi_gpu, install boost and compile it on your own.
+---------------------------------
+
+[93%] Compiling cl_platform...
+g++-4.0 -g -o cl_platform cl_platform.cpp -I/System/Library/Frameworks/OpenCL.framework/Versions/A/Headers -framework OpenCL 
+---------------------------------
+
+[96%] Compiling cl_square...
+g++-4.0 -g -o cl_square cl_square.cpp -framework OpenCL -I/System/Library/Frameworks/OpenCL.framework/Versions/A/Headers
+---------------------------------
+
+Please find executables in each example subfolders.
+[100%] Done! Please review the compiling errors yourself.
+---------------A successful building procedure----------END

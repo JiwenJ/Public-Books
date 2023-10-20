@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/deyuanqiu/Data/Workspace/GPGPU_Tutorial/glsl_uniform/../CReader/CReader.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+
+/Users/deyuanqiu/Data/Workspace/GPGPU_Tutorial/glsl_uniform/glsl_uniform.cpp
+stdio.h
+-
+stdlib.h
+-
+glew.h
+-
+GLUT/glut.h
+-
+../CReader/CReader.h
+/Users/deyuanqiu/Data/Workspace/GPGPU_Tutorial/glsl_uniform/../CReader/CReader.h
+
+/opt/local/include/GL/glew.h
+stddef.h
+-
+stdint.h
+-
+inttypes.h
+-
+OpenGL/glu.h
+-
+GL/glu.h
+-
+

@@ -1,0 +1,1 @@
+g++    -Wl,-search_paths_first -headerpad_max_install_names -fPIC CMakeFiles/glsl_uniform.dir/glsl_uniform.cpp.o  -o glsl_uniform  -L/System/Library/Frameworks/OpenGL.framework/Libraries -L/opt/local/lib -L/Users/deyuanqiu/Data/Workspace/GPGPU_Tutorial/CReader -lCReader -lGLEW -lGL -lGLU 

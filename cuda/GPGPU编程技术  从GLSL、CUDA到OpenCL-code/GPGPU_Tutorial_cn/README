@@ -1,0 +1,9 @@
+#########################
+# 03.06.2011
+# Deyuan Qiu
+# Version 0.2
+#########################
+The package contains the examples of the book: GPGPU Programming - From GLSL, CUDA to OpenCL. All examples are elaborated and explained in the book. Find the explanatory contexts in chapters accordingly. Please have a look at INSTALL for a brief guide of building the examples.
+
+More requirements and questions can be delivered to:
+deyuan.qiu@gmail.com
